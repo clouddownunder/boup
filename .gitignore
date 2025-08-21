@@ -1,0 +1,13 @@
+.env
+node_modules
+/vendor
+composer.phar
+composer.lock
+.DS_Store
+/public/uploads
+/.idea
+/.vscode
+.phpunit.result.cache
+/public/firebase_key.json
+/public/storage
+storage/app/public
