@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BuyerFaq;
 use App\Http\Resources\BuyersInfo;
+use App\Http\Resources\StateInfo;
 use App\Mail\ChangePassword;
 use App\Mail\Userforgotpassword;
 use App\Mail\WelcomeMail;
@@ -12,6 +13,9 @@ use App\Models\About;
 use App\Models\BuyerAccount;
 use App\Models\Buyers;
 use App\Models\BuyersFAQ;
+use App\Models\State;
+use App\Models\Tab;
+use Carbon\Carbon;
 use Google\Service\AdExchangeBuyerII\Buyer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -148,9 +152,11 @@ class BuyerController extends Controller
             return self::apiError($validator->errors()->first());
         }
         
+        $dob = Carbon::createFromFormat('d, M Y', $request->dob)->format('Y-m-d');
+
         $user = Buyers::find($buyer->id);
         $user->name = $request->fullName;
-        $user->dob = $request->dob;
+        $user->dob = $dob;
         $user->mailing_address = $request->mailAddressStreet;
         $user->mailing_suburb = $request->mailAddressCity;
         $user->mailing_state = $request->mailAddressState;
@@ -180,15 +186,14 @@ class BuyerController extends Controller
             return self::apiError($validator->errors()->first());
         }
 
+        $dob = Carbon::createFromFormat('d, M Y', $request->dob)->format('Y-m-d');
+
         $user = Buyers::find($buyer->id);
         $user->name = $request->fullName;
-        $user->dob = $request->dob;
+        $user->dob = $dob;
         $user->save();
 
-        return response()->json([
-            'status' => 1,
-            'message' => __("api.profile_update")
-        ]);
+        return self::apiResponse(new BuyersInfo($user), __('api.profile_update'));
 
     }
 
@@ -222,11 +227,9 @@ class BuyerController extends Controller
         $user->delivery_state = $request->shippingAddressState;
         $user->delivery_postcode = $request->shippingAddressPostcode;
         $user->save();
-        
-        return response()->json([
-            'status' => 1,
-            'message' => __("api.address_update")
-        ]);
+
+        return self::apiResponse(new BuyersInfo($user), __('api.address_update'));
+
     }
 
     public function changePassword(Request $request){
@@ -370,6 +373,37 @@ class BuyerController extends Controller
                 'data' => [ 'about'=> ''],
             ]);
         }
+    }
+
+    public function state(){
+
+        $state = State::get();
+
+        return self::apiResponse(StateInfo::collection($state), __("api.state_success"));
+    }
+
+    public function categories(){
+
+        $tabs = Tab::with('categories.subcategories')->get();
+ 
+        $response = [
+            'status' => 1,
+            'message' => 'Categories listed successfully',
+            'data' => $tabs->map(function ($tab) {
+                return [
+                    'tabName' => $tab->tab_name,
+                    'categories' => $tab->categories->map(function ($cat) {
+                        return [
+                            'categoryName' => $cat->category_name,
+                            'subcategories' => $cat->subcategories->pluck('subcategory_name')
+                        ];
+                    })
+                ];
+            })
+        ];
+    
+        return response()->json($response);
+    
     }
 
 }
