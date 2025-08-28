@@ -85,7 +85,7 @@ Route::middleware(['auth:buyer'])->group(function () {
         Route::post('/editAddress', [BuyerController::class, 'editAddress']);
 
         Route::post('/changePassword', [BuyerController::class, 'changePassword']);
-        Route::post('/deleteAccount', [BuyerController::class, 'destroy']);
+        Route::delete('/deleteAccount', [BuyerController::class, 'destroy']);
 
         Route::get('/getFaq', [BuyerController::class, 'getfaq']);
         Route::get('/about', [BuyerController::class, 'about']);
@@ -106,7 +106,7 @@ Route::middleware(['auth:vendor'])->group(function () {
         Route::post('/logout', [VendorController::class, 'logout']);
 
         Route::post('/changePassword', [VendorController::class, 'changePassword']);
-        Route::post('/deleteAccount', [VendorController::class, 'destroy']);
+        Route::delete('/deleteAccount', [VendorController::class, 'destroy']);
 
         Route::post('/editProfile', [VendorController::class, 'editProfile']);
         
