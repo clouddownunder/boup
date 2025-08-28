@@ -37,6 +37,7 @@ return array (
   'profile_success' => 'Your profile setup successfully.',
   'logo_update' => 'Your business profile image uploaded successfully.',
   'faq_success' => "FAQ's have been fetched successfully.",
+  'state_success' => "States have been fetched successfully.",
   'about_success' => 'About has been fetched successfully.',
  
 

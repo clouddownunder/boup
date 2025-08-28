@@ -19,7 +19,7 @@ class BuyersInfo extends JsonResource
             'userId' => $this->id,
             'name' => valueOrEmptyString($this->name),
             'email' => valueOrEmptyString($this->email),
-            'dob' =>  $this->dob ? Carbon::parse($this->dob)->format('d-m-Y') : '',
+            'dob' =>  $this->dob ? Carbon::parse($this->dob)->format('d, M Y') : '',
             'mailAddressStreet' => valueOrEmptyString($this->mailing_address),
             'mailAddressCity' => valueOrEmptyString($this->mailing_suburb),
             'mailAddressState' => valueOrEmptyString($this->mailing_state),

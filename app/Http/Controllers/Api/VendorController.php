@@ -11,6 +11,7 @@ use App\Mail\Vendorforgotpassword;
 use App\Models\VendorDeleteAccount;
 use App\Models\Vendors;
 use App\Models\VendorsFAQ;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -281,10 +282,11 @@ class VendorController extends Controller
         if ($validator->fails()) {
             return self::apiError($validator->errors()->first());
         }
+        $dob = Carbon::createFromFormat('d, M Y', $request->dob)->format('Y-m-d');
 
         $user = Vendors::find($vendor->id);
         $user->name = $request->fullName;
-        $user->dob = $request->dob;
+        $user->dob = $dob;
         $user->save();
 
         return response()->json([

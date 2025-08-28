@@ -89,6 +89,9 @@ Route::middleware(['auth:buyer'])->group(function () {
 
         Route::get('/getFaq', [BuyerController::class, 'getfaq']);
         Route::get('/about', [BuyerController::class, 'about']);
+        Route::get('/state', [BuyerController::class, 'state']);
+        Route::get('/categories', [BuyerController::class, 'categories']);
+
 
 
 
