@@ -93,6 +93,10 @@ Route::middleware(['auth:buyer'])->group(function () {
         Route::get('/categories', [BuyerController::class, 'categories']);
 
 
+        Route::get('/shoplist', [BuyerController::class, 'shoplist']);
+        Route::post('/shopDetail', [BuyerController::class, 'shopDetail']);
+
+        Route::get('/mapview', [BuyerController::class, 'mapview']);
 
 
 

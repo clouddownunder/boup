@@ -39,6 +39,10 @@ return array (
   'faq_success' => "FAQ's have been fetched successfully.",
   'state_success' => "States have been fetched successfully.",
   'about_success' => 'About has been fetched successfully.',
+  'all_shoplist_success' => 'All brewery shop list has been fetched successfully.',
+  'mapshoplist_success' => 'Shop list has been fetched successfully.',
+  'shopDetail_nofound' => 'Shop details does not found.',
+  'shopdetails_success' => 'Shop details have been fetched successfully.'
  
 
 );
