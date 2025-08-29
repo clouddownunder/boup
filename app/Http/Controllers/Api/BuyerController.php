@@ -384,7 +384,7 @@ class BuyerController extends Controller
 
     public function categories(){
 
-        $tabs = Tab::with('categories.subcategories')->get();
+        $tabs = Tab::with('category.subcategories')->get();
  
         $response = [
             'status' => 1,
@@ -392,7 +392,7 @@ class BuyerController extends Controller
             'data' => $tabs->map(function ($tab) {
                 return [
                     'tabName' => $tab->tab_name,
-                    'categories' => $tab->categories->map(function ($cat) {
+                    'categories' => $tab->category->map(function ($cat) {
                         return [
                             'categoryName' => $cat->category_name,
                             'subcategories' => $cat->subcategories->pluck('subcategory_name')
