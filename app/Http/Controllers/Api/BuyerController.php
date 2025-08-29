@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BuyerFaq;
 use App\Http\Resources\BuyersInfo;
+use App\Http\Resources\MapShopInfo;
+use App\Http\Resources\ShopInfo;
 use App\Http\Resources\StateInfo;
 use App\Mail\ChangePassword;
 use App\Mail\Userforgotpassword;
@@ -15,6 +17,7 @@ use App\Models\Buyers;
 use App\Models\BuyersFAQ;
 use App\Models\State;
 use App\Models\Tab;
+use App\Models\Vendors;
 use Carbon\Carbon;
 use Google\Service\AdExchangeBuyerII\Buyer;
 use Illuminate\Http\Request;
@@ -406,5 +409,40 @@ class BuyerController extends Controller
     
     }
 
+    public function shoplist(){
+        $shop = Vendors::where('status', 1 )->get();
+
+        return self::apiResponse(ShopInfo::collection($shop), __("api.all_shoplist_success"));
+
+    }
+
+    public function mapview(){
+
+        $shoplist = Vendors::where('status', 1 )->get();
+
+        return self::apiResponse(MapShopInfo::collection($shoplist), __("api.mapshoplist_success"));
+
+    }
+
+    public function shopDetail(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'id'=> 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return self::apiError($validator->errors()->first());
+        }
+
+        $shopDetail = Vendors::find($request->id);
+
+        if($shopDetail){
+            return self::apiResponse( new ShopInfo($shopDetail), __("api.shopdetails_success"));
+
+        }else{
+            return self::apiError(__('api.shopDetail_nofound'));
+        }
+
+    }
 }
 
