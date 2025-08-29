@@ -12,7 +12,7 @@ class SubCategories extends Model
 
     public function category()
     {
-        return $this->belongsTo(Categories::class, 'category_id'); // also specify foreign key
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 
 }

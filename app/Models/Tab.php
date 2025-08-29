@@ -11,7 +11,7 @@ class Tab extends Model
 
     protected $table = 'tabs';
 
-    public function categories()
+    public function category()
     {
         return $this->hasMany(Categories::class);
     }
