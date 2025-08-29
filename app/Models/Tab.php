@@ -13,6 +13,6 @@ class Tab extends Model
 
     public function category()
     {
-        return $this->hasMany(Categories::class);
+        return $this->hasMany(Category::class);
     }
 }
